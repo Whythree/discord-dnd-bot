@@ -31,8 +31,11 @@ async def ping(context):
 @bot.command()
 async def spell(context, *, spellname):
     print(spellname)
-    async with bot.session.get("spells/fireball") as response:
+    spellname = str(spellname.lower().strip().replace(" ", "-"))
+    print(spellname)
+    async with bot.session.get(f"spells/{spellname}") as response:
         print(response.status)
-        print(await response.json())
+        data = await response.json()
+        await context.send(data["desc"][0])
 
 bot.run(api_key)
