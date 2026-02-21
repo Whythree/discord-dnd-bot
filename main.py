@@ -3,7 +3,7 @@ from urllib import request
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-import aiohttp 
+import aiohttp
 import asyncio
 
 from KeywordHandler import KeywordHandler
@@ -14,18 +14,23 @@ api_key = str(os.getenv("API_KEY"))
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot =commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
-#Das werden wir wohl wegwerfen
-INTENT_KEYWORDS : dict = {
-    "spells" : [],
-    "alignments" : [],
-    "backgrounds" : [],
-    "classes" : [],
-    "conditions" : [],
-    "damage-types" : [],
-}
+# Das werden wir wohl wegwerfen
+INTENT_KEYWORDS: list = [
+    "spells",
+    "alignments",
+    "backgrounds",
+    "classes",
+    "conditions",
+    "damage-types",
+    "equipment",
+    "feats",
+    "features",
+    "languages",
+]
+
 
 def populate_keywords():
     pass
@@ -33,17 +38,20 @@ def populate_keywords():
 
 @bot.event
 async def on_ready():
-    #Dynamically adding a new session attribute to bot object
+    # Dynamically adding a new session attribute to bot object
     bot.session = aiohttp.ClientSession(base_url="https://www.dnd5eapi.co/api/2014/")
     print(f"Bot logged on as {bot.user}")
+
 
 @bot.event
 async def on_close():
     await bot.session.close()
 
+
 @bot.command()
 async def ping(context):
     await context.send("Pong!")
+
 
 @bot.command()
 async def spell(context, *, spellname):
@@ -58,8 +66,7 @@ async def spell(context, *, spellname):
 
 @bot.command()
 async def test(context):
-    keyword_handler =  KeywordHandler(bot.session)
-    await keyword_handler.load_index("spells")
+    keyword_handler = KeywordHandler(bot.session)
     print(keyword_handler.spells)
 
 
