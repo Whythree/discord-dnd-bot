@@ -1,9 +1,12 @@
 import os
+from urllib import request
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 import aiohttp 
 import asyncio
+
+from KeywordHandler import KeywordHandler
 
 load_dotenv()
 api_key = str(os.getenv("API_KEY"))
@@ -12,6 +15,20 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot =commands.Bot(command_prefix="!", intents=intents)
+
+
+#Das werden wir wohl wegwerfen
+INTENT_KEYWORDS : dict = {
+    "spells" : [],
+    "alignments" : [],
+    "backgrounds" : [],
+    "classes" : [],
+    "conditions" : [],
+    "damage-types" : [],
+}
+
+def populate_keywords():
+    pass
 
 
 @bot.event
@@ -37,5 +54,13 @@ async def spell(context, *, spellname):
         print(response.status)
         data = await response.json()
         await context.send(data["desc"][0])
+
+
+@bot.command()
+async def test(context):
+    keyword_handler =  KeywordHandler(bot.session)
+    await keyword_handler.load_index("spells")
+    print(keyword_handler.spells)
+
 
 bot.run(api_key)
