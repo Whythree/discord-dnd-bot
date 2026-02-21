@@ -15,25 +15,6 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
-# Das werden wir wohl wegwerfen
-INTENT_KEYWORDS: list = [
-    "spells",
-    "alignments",
-    "backgrounds",
-    "classes",
-    "conditions",
-    "damage-types",
-    "equipment",
-    "feats",
-    "features",
-    "languages",
-]
-
-
-def populate_keywords():
-    pass
-
-
 @bot.event
 async def on_ready():
     # Dynamically adding a new session attribute to bot object
@@ -66,7 +47,7 @@ async def spell(context, *, spellname):
 async def test(context):
     keyword_handler = KeywordHandler(bot.session)
     await keyword_handler.setup()
-    print(keyword_handler.data)
-
+    print(keyword_handler.data["spells"])
+    
 
 bot.run(api_key)
