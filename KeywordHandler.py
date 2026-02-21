@@ -1,5 +1,3 @@
-import aiohttp
-import asyncio
 
 
 class KeywordHandler:
@@ -8,6 +6,7 @@ class KeywordHandler:
         self.session = session
 
         self.data = {}
+        
 
     async def setup(self):
         categories = [
@@ -30,11 +29,11 @@ class KeywordHandler:
             await self.load_index(category)
     
     
-    async def load_index(self, category: str):
+    async def load_index(self, category):
         url = f"{self.base_url}/{category}"
 
         async with self.session.get(url) as response:
             if response.status == 200:
-                self.spells = await response.json()
+                self.data[category] = await response.json()
             else:
-                response.raise_for_status()
+                print(response.status)

@@ -1,10 +1,8 @@
 import os
-from urllib import request
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 import aiohttp
-import asyncio
 
 from KeywordHandler import KeywordHandler
 
@@ -67,7 +65,8 @@ async def spell(context, *, spellname):
 @bot.command()
 async def test(context):
     keyword_handler = KeywordHandler(bot.session)
-    print(keyword_handler.spells)
+    await keyword_handler.setup()
+    print(keyword_handler.data)
 
 
 bot.run(api_key)

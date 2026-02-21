@@ -6,5 +6,7 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.terminal.useEnvFile":true,
-    "code-runner.enableAppInsights": false
+    "code-runner.enableAppInsights": false,
+    "python-envs.pythonProjects": [],
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }
